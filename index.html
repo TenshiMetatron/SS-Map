@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mall Sidebar Only</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <button id="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+    <aside id="sidebar">
+        <div class="floor-buttons">
+            <button class="map-btn">Campus</button>
+            <button>Floor 1</button>
+            <button>Floor 2</button>
+            <button>Floor 3</button>
+            <button>Floor 4</button>
+            <button>Floor 5</button>
+        </div>
+    </aside>
+    <main id="map-container">
+        <svg id="map" viewBox="0 0 400 300">
+            <rect x="30" y="30" width="340" height="240" rx="30" fill="#e3f2fd" stroke="#1976d2" stroke-width="4"/>
+            <text x="200" y="160" text-anchor="middle" font-size="32" fill="#1976d2">Campus Map</text>
+        </svg>
+        <div class="zoom-controls">
+            <button class="zoom-circle" id="zoom-in" aria-label="Zoom In">＋</button>
+            <button class="zoom-circle" id="zoom-out" aria-label="Zoom Out">－</button>
+        </div>
+    </main>
+</body>
+</html>
