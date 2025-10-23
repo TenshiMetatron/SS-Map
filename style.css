@@ -41,6 +41,13 @@ body {
   background: none;
   border: none;
   color: white;
+  /* START: FIX FOR BUTTON VISIBILITY AND SIZING */
+  width: 44px;             
+  height: 44px;            
+  line-height: 44px;       
+  text-align: center;      
+  margin: 0 5px;           
+  /* END: FIX FOR BUTTON VISIBILITY AND SIZING */
   font-size: 1.4rem;
   cursor: pointer;
   z-index: 1001;
@@ -135,6 +142,13 @@ main {
   }
   main {
     margin-left: 0;
+  }
+  
+  /* Hiding menu-btn on desktop was likely not done. 
+     If the user wants a mobile-only toggle button, 
+     the menu-btn should be displayed block here. */
+  .menu-btn {
+      display: block;
   }
 }
 
