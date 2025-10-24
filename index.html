@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+<body>
+  <header class="topbar">
+    <button id="menu-btn" class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+    <h1>Campus Dashboard</h1>
+    </header>
+
+  <aside id="sidebar" class="sidebar">
+    <nav>
+      <a href="#" id="home-tab"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#" id="map-tab"><i class="fa-solid fa-map"></i> Interactive Map</a>
+      <a href="#" id="feedback-tab"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
+    </nav>
+  </aside>
+
+  <aside id="map-sidebar" class="sidebar map-sidebar">
+    <div class="map-sidebar-header">PPKS Map</div>
+    <nav>
+      <a href="#" id="map-campus" class="active"><i class="fa-solid fa-layer-group"></i> Campus Map</a>
+      <a href="#" id="map-level1"><i class="fa-solid fa-layer-group"></i> Ground Floor</a>
+      <a href="#" id="map-level2"><i class="fa-solid fa-layer-group"></i> 1st Floor</a>
+      <a href="#" id="map-level3"><i class="fa-solid fa-layer-group"></i> 2nd Floor</a>
+      <a href="#" id="map-level4"><i class="fa-solid fa-layer-group"></i> Masjid</a>
+      <a href="#" id="map-level5"><i class="fa-solid fa-layer-group"></i> Admin Building</a>
+      <a href="#" id="map-level6"><i class="fa-solid fa-layer-group"></i> Cafeteria</a>
+      <a href="#" id="map-level7"><i class="fa-solid fa-layer-group"></i> Asrama Cendrawasih</a>
+      <a href="#" id="map-level8"><i class="fa-solid fa-layer-group"></i> Asrama Kenyalang</a>
+    </nav>
+  </aside>
+
+  <div id="overlay"></div>
+
+  <main id="main-content">
+  </main>
+
+  <script defer src="script.js"></script>
+</body>
+</html>
