@@ -31,10 +31,9 @@ count++;
 localStorage.setItem("visitorCount", count);
 
 // Preload map images for smooth floor switching 
-// NOTE: Ensure your map images are named MapPPKS.jpg, MapCampus.jpg, Map1.jpg through Map8.jpg
+// NOTE: Ensure your map images are named MapCampus.jpg, Map1.jpg through Map8.jpg
 const mapImages = {
-  'ppks': new Image(), 
-  'campus': new Image(), // NEW CAMPUS MAP ENTRY
+  'campus': new Image(), // Campus Map
   '1': new Image(),
   '2': new Image(),
   '3': new Image(),
@@ -44,8 +43,7 @@ const mapImages = {
   '7': new Image(), 
   '8': new Image()  
 };
-mapImages['ppks'].src = "MapPPKS.jpg"; 
-mapImages['campus'].src = "MapCampus.jpg"; // NEW CAMPUS MAP SOURCE
+mapImages['campus'].src = "MapCampus.jpg"; 
 mapImages['1'].src = "Map1.jpg";
 mapImages['2'].src = "Map2.jpg";
 mapImages['3'].src = "Map3.jpg";
@@ -147,6 +145,9 @@ overlay.addEventListener("click", () => {
 
 // 3. Map Level Switching (Floor Buttons)
 document.querySelectorAll("#map-sidebar nav a").forEach(link => {
+    // Skip if the element is not a link (e.g., the PPKS Map header)
+    if (link.tagName !== 'A') return;
+    
     link.addEventListener("click", e => {
         e.preventDefault();
         
@@ -155,20 +156,20 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
             document.querySelectorAll("#map-sidebar nav a").forEach(l => l.classList.remove("active"));
             link.classList.add("active");
 
-            // 2. Determine the correct map file name (handles 'campus', 'level1' etc.)
+            // 2. Determine the correct map file name (handles 'campus' and 'levelX' etc.)
             const levelId = link.id.replace("map-", "");
             
             let newSrc;
+            let lookupId;
+
             if (levelId === 'campus') {
-                newSrc = "MapCampus.jpg"; // Use MapCampus.jpg
+                newSrc = "MapCampus.jpg";
+                lookupId = 'campus';
             } else if (levelId.startsWith('level')) {
-                const levelNum = levelId.replace('level', '');
-                newSrc = `Map${levelNum}.jpg`; 
+                lookupId = levelId.replace('level', '');
+                newSrc = `Map${lookupId}.jpg`; 
             } else {
-                // This covers map-ppks (MapPPKS.jpg) if it were a link, 
-                // but since it's a header now, this path is mostly for future proofing 
-                // and should not be hit by the current HTML
-                newSrc = `Map${levelId.toUpperCase()}.jpg`; 
+                return;
             }
             
             // 3. Get dynamically added elements
@@ -181,9 +182,7 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
                 
                 spinner.style.display = "block";
                 mapImage.style.opacity = 0;
-                
-                // Use levelId for mapImages lookup (e.g., 'campus', '1', '2', etc.)
-                let lookupId = levelId.startsWith('level') ? levelId.replace('level', '') : levelId;
+
                 const tempImg = mapImages[lookupId];
                 
                 const imageLoadHandler = () => {
@@ -201,7 +200,6 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
                 } else if (tempImg) {
                     tempImg.onload = imageLoadHandler; 
                 } else {
-                    // Fallback if image object wasn't created (e.g. MapPPKS since it's now a header)
                     mapImage.src = newSrc;
                     spinner.style.display = "none";
                     mapImage.style.opacity = 1;
