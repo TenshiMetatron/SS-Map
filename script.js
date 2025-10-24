@@ -3,7 +3,6 @@ const menuBtn = document.getElementById("menu-btn");
 const sidebar = document.getElementById("sidebar");
 const mapSidebar = document.getElementById("map-sidebar");
 const overlay = document.getElementById("overlay");
-const themeToggle = document.getElementById("theme-toggle");
 const mainContent = document.getElementById("main-content");
 
 // Global variables to track zoom level and position for drag/zoom functionality
@@ -31,22 +30,30 @@ let count = parseInt(localStorage.getItem("visitorCount") || 0);
 count++;
 localStorage.setItem("visitorCount", count);
 
-// Theme toggle with persistence (Run once on script load)
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark-mode");
-  themeToggle.querySelector("i").classList.replace("fa-moon", "fa-sun");
-}
-
 // Preload map images for smooth floor switching 
-// NOTE: Ensure your map images are named Map1.jpg, Map2.jpg, and Map3.jpg
+// NOTE: Ensure your map images are named MapPPKS.jpg, MapCampus.jpg, Map1.jpg through Map8.jpg
 const mapImages = {
-  1: new Image(),
-  2: new Image(),
-  3: new Image()
+  'ppks': new Image(), 
+  'campus': new Image(), // NEW CAMPUS MAP ENTRY
+  '1': new Image(),
+  '2': new Image(),
+  '3': new Image(),
+  '4': new Image(), 
+  '5': new Image(), 
+  '6': new Image(), 
+  '7': new Image(), 
+  '8': new Image()  
 };
-mapImages[1].src = "Map1.jpg";
-mapImages[2].src = "Map2.jpg";
-mapImages[3].src = "Map3.jpg";
+mapImages['ppks'].src = "MapPPKS.jpg"; 
+mapImages['campus'].src = "MapCampus.jpg"; // NEW CAMPUS MAP SOURCE
+mapImages['1'].src = "Map1.jpg";
+mapImages['2'].src = "Map2.jpg";
+mapImages['3'].src = "Map3.jpg";
+mapImages['4'].src = "Map4.jpg";
+mapImages['5'].src = "Map5.jpg";
+mapImages['6'].src = "Map6.jpg";
+mapImages['7'].src = "Map7.jpg";
+mapImages['8'].src = "Map8.jpg";
 
 
 // --- Utility Functions ---
@@ -121,7 +128,7 @@ function clearMainContent() {
 }
 
 
-// --- Global Event Listeners (Sidebar, Theme, Overlay) ---
+// --- Global Event Listeners (Sidebar, Overlay) ---
 
 // 1. Main Sidebar & Overlay Toggle
 menuBtn.addEventListener("click", () => {
@@ -138,17 +145,7 @@ overlay.addEventListener("click", () => {
   overlay.classList.remove("active");
 });
 
-// 3. Theme Toggle Handler
-themeToggle.addEventListener("click", () => {
-  const isDark = document.body.classList.toggle("dark-mode");
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-  const icon = themeToggle.querySelector("i");
-  icon.classList.toggle("fa-moon");
-  icon.classList.toggle("fa-sun");
-});
-
-
-// 4. Map Level Switching (Floor Buttons)
+// 3. Map Level Switching (Floor Buttons)
 document.querySelectorAll("#map-sidebar nav a").forEach(link => {
     link.addEventListener("click", e => {
         e.preventDefault();
@@ -158,10 +155,22 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
             document.querySelectorAll("#map-sidebar nav a").forEach(l => l.classList.remove("active"));
             link.classList.add("active");
 
-            // 2. Determine the correct map file name
-            const level = link.id.replace("map-level", "");
-            const newSrc = `Map${level}.jpg`; 
-
+            // 2. Determine the correct map file name (handles 'campus', 'level1' etc.)
+            const levelId = link.id.replace("map-", "");
+            
+            let newSrc;
+            if (levelId === 'campus') {
+                newSrc = "MapCampus.jpg"; // Use MapCampus.jpg
+            } else if (levelId.startsWith('level')) {
+                const levelNum = levelId.replace('level', '');
+                newSrc = `Map${levelNum}.jpg`; 
+            } else {
+                // This covers map-ppks (MapPPKS.jpg) if it were a link, 
+                // but since it's a header now, this path is mostly for future proofing 
+                // and should not be hit by the current HTML
+                newSrc = `Map${levelId.toUpperCase()}.jpg`; 
+            }
+            
             // 3. Get dynamically added elements
             const mapImage = document.getElementById("campus-map");
             const spinner = document.getElementById("map-spinner");
@@ -172,8 +181,10 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
                 
                 spinner.style.display = "block";
                 mapImage.style.opacity = 0;
-
-                const tempImg = mapImages[level];
+                
+                // Use levelId for mapImages lookup (e.g., 'campus', '1', '2', etc.)
+                let lookupId = levelId.startsWith('level') ? levelId.replace('level', '') : levelId;
+                const tempImg = mapImages[lookupId];
                 
                 const imageLoadHandler = () => {
                     mapImage.src = newSrc;
@@ -185,10 +196,15 @@ document.querySelectorAll("#map-sidebar nav a").forEach(link => {
                 };
 
                 // Handle image loading
-                if (tempImg.complete) {
+                if (tempImg && tempImg.complete) {
                     imageLoadHandler();
-                } else {
+                } else if (tempImg) {
                     tempImg.onload = imageLoadHandler; 
+                } else {
+                    // Fallback if image object wasn't created (e.g. MapPPKS since it's now a header)
+                    mapImage.src = newSrc;
+                    spinner.style.display = "none";
+                    mapImage.style.opacity = 1;
                 }
             }
             
@@ -412,8 +428,7 @@ document.getElementById("map-tab").addEventListener("click", e => {
     </div>
     <div class="map-wrapper" id="map-wrapper">
       <div class="spinner" id="map-spinner" style="display:none;"></div>
-      <img id="campus-map" src="Map1.jpg" alt="Campus Map" />
-    </div>
+      <img id="campus-map" src="MapCampus.jpg" alt="Campus Map" /> </div>
   `;
   
   // Initialize zoom/position display and button states
@@ -451,7 +466,7 @@ document.getElementById("map-tab").addEventListener("click", e => {
 
   // 5. Ensure the current floor link is active
   if (!document.querySelector('#map-sidebar nav a.active')) {
-      document.getElementById("map-level1").classList.add("active");
+      document.getElementById("map-campus").classList.add("active"); // SET DEFAULT ACTIVE LINK TO CAMPUS MAP
   }
 
 });
