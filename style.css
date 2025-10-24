@@ -36,27 +36,23 @@ body {
     font-size: 1.5rem;
 }
 
-.menu-btn,
-.theme-btn {
+.menu-btn { 
   background: none;
   border: none;
   color: white;
-  /* START: FIX FOR BUTTON VISIBILITY AND SIZING */
+  /* FIX for button visibility and sizing */
   width: 44px;             
   height: 44px;            
   line-height: 44px;       
   text-align: center;      
   margin: 0 5px;           
-  /* END: FIX FOR BUTTON VISIBILITY AND SIZING */
+  /* End FIX */
   font-size: 1.4rem;
   cursor: pointer;
   z-index: 1001;
   flex-shrink: 0;
 }
 
-body.dark-mode .theme-btn {
-  color: #facc15;
-}
 
 /* Sidebar (Common Left-Slide Logic) */
 .sidebar {
@@ -105,8 +101,30 @@ body.dark-mode .theme-btn {
 /* Map sidebar */
 .map-sidebar {
   background: #0f172a;
+  /* NEW: Enable flex container for scrolling */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Styling for the map sidebar header (PPKS Map) */
+.map-sidebar-header {
+    color: #cbd5e1; 
+    padding: 18px 20px 10px; 
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Ensure header does not scroll */
+    flex-shrink: 0; 
+}
+
+/* NEW: Make the navigation links area scrollable */
+.map-sidebar nav {
+    flex-grow: 1; /* Take up all remaining space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-top: 0; /* Remove default top padding */
+    padding-bottom: 20px; /* Add bottom padding for scroll aesthetics */
+}
 
 /* Overlay */
 #overlay {
@@ -144,19 +162,9 @@ main {
     margin-left: 0;
   }
   
-  /* Hiding menu-btn on desktop was likely not done. 
-     If the user wants a mobile-only toggle button, 
-     the menu-btn should be displayed block here. */
   .menu-btn {
       display: block;
   }
-}
-
-/* Dark mode */
-body.dark-mode {
-  --background: #1e293b;
-  --text: #f8fafc;
-  --primary: #0f172a;
 }
 
 /* Home Tab Stat Card */
@@ -171,11 +179,6 @@ body.dark-mode {
   transition: background 0.3s;
 }
 
-body.dark-mode .stat-card {
-  background: #2d3748;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
 .stat-card h3 {
   margin-top: 0;
   font-size: 1.1rem;
@@ -187,10 +190,6 @@ body.dark-mode .stat-card {
   font-weight: 700;
   color: var(--primary);
   line-height: 1;
-}
-
-body.dark-mode .stat-number {
-    color: #93c5fd;
 }
 
 /* Map section (Image-based with Zoom) */
@@ -317,18 +316,12 @@ body.dark-mode .stat-number {
   background: white;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feedback-form:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-}
-
-body.dark-mode .feedback-form {
-  background: #2d3748;
-  color: white;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .feedback-form input,
@@ -348,19 +341,6 @@ body.dark-mode .feedback-form {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2);
-}
-
-body.dark-mode .feedback-form input,
-body.dark-mode .feedback-form textarea {
-  background: #334155;
-  border: 1px solid #475569;
-  color: white;
-}
-
-body.dark-mode .feedback-form input:focus,
-body.dark-mode .feedback-form textarea:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
 }
 
 .feedback-form button {
