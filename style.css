@@ -40,13 +40,11 @@ body {
   background: none;
   border: none;
   color: white;
-  /* FIX for button visibility and sizing */
   width: 44px;             
   height: 44px;            
   line-height: 44px;       
   text-align: center;      
   margin: 0 5px;           
-  /* End FIX */
   font-size: 1.4rem;
   cursor: pointer;
   z-index: 1001;
@@ -101,7 +99,7 @@ body {
 /* Map sidebar */
 .map-sidebar {
   background: #0f172a;
-  /* NEW: Enable flex container for scrolling */
+  /* Enable flex container for scrolling */
   display: flex;
   flex-direction: column;
 }
@@ -118,7 +116,7 @@ body {
     flex-shrink: 0; 
 }
 
-/* NEW: Make the navigation links area scrollable */
+/* Make the navigation links area scrollable */
 .map-sidebar nav {
     flex-grow: 1; /* Take up all remaining space */
     overflow-y: auto; /* Enable vertical scrolling */
